@@ -1,0 +1,30 @@
+#container {
+  text-align: center;
+  margin: 0px auto;
+    width: 500px;
+}
+
+#board {
+  position: relative;
+}
+
+.tile {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 1px solid #000;
+  background: blue;
+  z-index: 2;
+  height: 50px;
+  width: 50px;
+}
+
+#background {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 1px solid #000;
+  background: #f9f9f9;
+  opacity: 0.5;
+  z-index: 1;
+}
