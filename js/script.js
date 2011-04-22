@@ -1,23 +1,17 @@
-
 boardWidth  = 500;
 boardHeight = 500;
-
+tileWidth =50;
+tileHeight =50;
 
 currentLevel = 1;
-connections = {
-  1:  [[0,1],[1,3],[2,3],[0,2]],
-  2:  [[0,1],[1,2],[2,3],[3,4], [4,0]]
-}
-
 tiles = {};
 
 function initBoard() {
    board = document.getElementById('board');
-   bg = document.getElementById('background').getContext('2d');
-}
-
-function updateStatus() {
-  $('#status').text('dragging');
+   background = document.getElementById('background');
+   bg = background.getContext('2d');
+   boardWidth = $(background).width();
+   boardHeight = $(background).height();
 }
 
 function addTiles(numTiles) {
@@ -41,7 +35,6 @@ function addTile(index,x,y) {
     drag: function() {
       $(this).addClass('dragging');
       drawLines();
-		  updateStatus();
 	  },
 	  stop: function() {
 	    checkOverlap();
@@ -54,7 +47,7 @@ function addTile(index,x,y) {
 
 function clearBoard() {
   bg.beginPath();
-  bg.clearRect(0,0,500,500);
+  bg.clearRect(0,0,boardWidth,boardHeight);
 }
 
 function drawLines() {
@@ -62,10 +55,10 @@ function drawLines() {
   bg.strokeStyle = "#999963";
   bg.lineWidth = 3;
   bg.stroke();
-  centerXAdjust = 25;
-  centerYAdjust = 25;
+  centerXAdjust = tileWidth/2;
+  centerYAdjust = tileHeight/2;
   
-  $(connections[currentLevel]).each(function(i,connection) {
+  $(levels[currentLevel].connections).each(function(i,connection) {
     tileA = tiles[connection[0]];
     tileB = tiles[connection[1]];
     bg.moveTo(parseInt(tileA.style.left) + centerXAdjust, parseInt(tileA.style.top) + centerYAdjust);
@@ -83,19 +76,19 @@ function startLevel(level) {
   $('.tile').remove();
   $('.congrats_bg').remove();
   clearBoard();
-  addTiles(connections[level].length);
+  addTiles(levels[currentLevel].numTiles);
   drawLines();
 }
 
 function finishLevel() {
   disableDraggable();
-  $(board).append("<div class='congrats_bg'><div class='congrats'><h1>Yey! Level 2 solved</h1><p><a href='#' class='next'>Continue to level 3</a></p></div></div>"); 
+  $(board).append("<div class='congrats_bg'><div class='congrats'><h1>Yey! Level "+currentLevel+" solved</h1><p><a href='#' class='next button'>Continue to level "+(currentLevel+1)+"</a></p></div></div>"); 
   $('.next').click(function(){startLevel(currentLevel+1)});
 }
 
 function checkOverlap() {
   var tangled=false;
-  currentConnections = connections[currentLevel];
+  currentConnections = levels[currentLevel].connections;
   outer: for(var i=0;i<currentConnections.length; i++) {
 
     firstMarker=tiles[currentConnections[i][0]];
@@ -129,12 +122,14 @@ function checkOverlap() {
     $('#status').text('free!');
     finishLevel();
   }
-
 }
 
 
 $(function(){
-  initBoard();
-  startLevel(currentLevel);
-  drawLines();
+  $('.start').click(function () {
+    $('#instructions').hide();
+    initBoard();
+    startLevel(currentLevel);
+    drawLines();  
+  });
 });
