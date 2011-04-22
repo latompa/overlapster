@@ -39,20 +39,27 @@ function addTile(index,x,y) {
   $(tile).draggable({ 
     containment: "parent",  
     drag: function() {
+      $(this).addClass('dragging');
       drawLines();
 		  updateStatus();
 	  },
 	  stop: function() {
 	    checkOverlap();
+	    $(this).removeClass('dragging');
+	    drawLines();
 	  }
   });
   tiles[i] = tile;
 }
 
-function drawLines() {
+function clearBoard() {
   bg.beginPath();
   bg.clearRect(0,0,500,500);
-  bg.strokeStyle = "#000";
+}
+
+function drawLines() {
+  clearBoard();
+  bg.strokeStyle = "#999963";
   bg.lineWidth = 3;
   bg.stroke();
   centerXAdjust = 25;
@@ -67,8 +74,23 @@ function drawLines() {
   });
 }
 
+function disableDraggable() {
+  $('.tile').draggable({disabled: true});
+}
+
 function startLevel(level) {
+  currentLevel=level;
+  $('.tile').remove();
+  $('.congrats_bg').remove();
+  clearBoard();
   addTiles(connections[level].length);
+  drawLines();
+}
+
+function finishLevel() {
+  disableDraggable();
+  $(board).append("<div class='congrats_bg'><div class='congrats'><h1>Yey! Level 2 solved</h1><p><a href='#' class='next'>Continue to level 3</a></p></div></div>"); 
+  $('.next').click(function(){startLevel(currentLevel+1)});
 }
 
 function checkOverlap() {
@@ -83,14 +105,12 @@ function checkOverlap() {
     var a1y= parseInt(firstMarker.style.top);
     var a2x= parseInt(secondMarker.style.left);
     var a2y= parseInt(secondMarker.style.top);
-    console.log("%d", a1x);
 
     // check against the other currentConnections
     for(var j=i;j<currentConnections.length; j++) {
 
       firstMarker=tiles[currentConnections[j][0]];
       secondMarker=tiles[currentConnections[j][1]]
-
 
       var b1x= parseInt(firstMarker.style.left);
       var b1y= parseInt(firstMarker.style.top);
@@ -102,12 +122,12 @@ function checkOverlap() {
         break outer;
       } 
     }
-
   }
   if(tangled == true) {
     $('#status').text('tangled');
   } else {
     $('#status').text('free!');
+    finishLevel();
   }
 
 }
