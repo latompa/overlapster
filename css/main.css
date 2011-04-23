@@ -5,10 +5,10 @@ body {
 
 #container {
   text-align: center;
-  margin: 0px auto;
+  margin: 20px auto;
   width: 500px; 
   height: 500px;
-
+  
 }
 
 #board {
@@ -24,46 +24,38 @@ body {
   position: absolute;
   top: 0px;
   left: 0px;
-  border: 1px solid #ffcc00;
+  border: 2px solid #ffcc00;
   background: #ff5f00;
   z-index: 2;
-  height: 48px;
-  width: 48px;
+  height: 46px;
+  width: 46px;
 }
 
-#instructions {
+.instructions {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;  
   z-index: 100;
-  width: 100%;
-  padding-top: 4em;
-}
-
-.congrats_bg {
-  position: absolute;
   width: 500px; 
   height: 500px;
-  z-index: 3;
   background: #000;
   opacity: 0.9;
-  padding: 40px;
-  display: table;
 }
 
-.congrats {
-  display:table-cell;vertical-align:middle;
+#start {
 }
 
- h1 {
+#all_cleared {
+}
+
+h1 {
+  padding-top: 3em;
   color: #fff;
   font-size: 3em;
 }
 
 .congrats p {
   line-height: 4em;
-
 }
 
 a.button {
@@ -96,4 +88,8 @@ a.button {
 
 #status {
   color: #ffcc00;
+}
+
+p.who {
+  line-height: 10em;
 }

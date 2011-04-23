@@ -18,14 +18,29 @@
 </head>
 <body>
   <div id="container">
-    <p id="status">Status</p>  
+    <p id="status" style="display: none">Status</p>  
     <div id="board">
       <canvas id="background" width="500" height="500"></canvas>
-      <div id="instructions">
+      
+      <div id="start" class="instructions">
         <h1>Overlapster</h1>
         <p>Move the tiles so that no lines cross</p>
         <p><a href="#" class="start button">Start</a></p>
+        <p class="who">javascript by <a href="http://latompa.github.com">Thomas Olausson</a></p>
       </div>
+      
+        <div id="all_cleared" class="instructions" style="display: none">
+        <h1>All Levels Cleared</h1>
+        <p>Your life is untangled</p>
+        <p><a href="#" class="start button">Start over</a></p>
+      </div>
+      
+      <div id="level_cleared" class="instructions" style="display: none">
+        <h1>Yey! Level <span id="current_level"></span> solved</h1>
+        <p><a href="#" class="next button">Continue to level <span id="next_level"></span></a></p>
+      </div>
+      
+      
     </div>
   </div>
 

@@ -52,7 +52,7 @@ function clearBoard() {
 
 function drawLines() {
   clearBoard();
-  bg.strokeStyle = "#999963";
+  bg.strokeStyle = "#777763";
   bg.lineWidth = 3;
   bg.stroke();
   centerXAdjust = tileWidth/2;
@@ -74,7 +74,7 @@ function disableDraggable() {
 function startLevel(level) {
   currentLevel=level;
   $('.tile').remove();
-  $('.congrats_bg').remove();
+  $('#level_cleared').hide();
   clearBoard();
   addTiles(levels[currentLevel].numTiles);
   drawLines();
@@ -82,8 +82,15 @@ function startLevel(level) {
 
 function finishLevel() {
   disableDraggable();
-  $(board).append("<div class='congrats_bg'><div class='congrats'><h1>Yey! Level "+currentLevel+" solved</h1><p><a href='#' class='next button'>Continue to level "+(currentLevel+1)+"</a></p></div></div>"); 
-  $('.next').click(function(){startLevel(currentLevel+1)});
+  if(levels[currentLevel+1] != null) {
+    $('#current_level').html(currentLevel);
+    $('#next_level').html(currentLevel+1);
+    $('#level_cleared').show();
+  }
+  else {
+    $('#all_cleared').show();
+  }
+  
 }
 
 function checkOverlap() {
@@ -127,9 +134,10 @@ function checkOverlap() {
 
 $(function(){
   $('.start').click(function () {
-    $('#instructions').hide();
+    $('.instructions').hide();
     initBoard();
-    startLevel(currentLevel);
+    startLevel(1);
     drawLines();  
   });
+  $('.next').live('click',function(){startLevel(currentLevel+1)});
 });
